@@ -1,0 +1,9 @@
+#!/bin/sh
+
+commit_regex='^([[:blank:]\v\r\n\f]*[[:alpha:][:digit:]]){10,}'
+error_msg="Aborting commit."
+
+if ! grep -iqE "$commit_regex" "$1"; then
+    echo "$error_msg" >&2
+    exit 1
+fi

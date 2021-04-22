@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  web:
+    image: web
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_postgres
+      - chrome
+    env_file:
+      - db_keys.env
+    command: sh -c "python src/main_postgres.py"
+  db_postgres:
+    image: postgres
+    container_name: postgres_db
+    env_file:
+      - db_keys.env
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+  chrome:
+    image: selenium/node-chrome:3.14.0-gallium
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+  hub:
+    image: selenium/hub:3.14.0-gallium
+    ports:
+      - "4444:4444"
+  
+volumes:
+  static_volume:
