@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  web:
+    image: web
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_mongo
+      - chrome
+    command: sh -c "python src/main_mongo.py"
+  db_mongo:
+    image: mongo
+    container_name: mongo_db
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+  chrome:
+    image: selenium/node-chrome:3.14.0-gallium
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+  hub:
+    image: selenium/hub:3.14.0-gallium
+    ports:
+      - "4444:4444"
+  
+volumes:
+  static_volume:

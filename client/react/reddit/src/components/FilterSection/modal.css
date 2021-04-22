@@ -1,0 +1,31 @@
+.modal {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.8);
+    top: 0;
+    left: 0;
+    position: fixed;
+    opacity:0;
+    pointer-events: none;
+    transform: 0.5s;
+}
+
+.modal.active {
+    opacity:1;
+    pointer-events: all;
+}
+
+.popup-body {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+}
+
+.popup-content {
+    background-color: white;
+    color: black;
+    max-width: 800px;
+    padding: 30px;
+}
